@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Belajar SMA - IPS</title>
+    <title>Jadwal Belajar SMA</title>
     <style>
         :root {
             --primary-color: #4f46e5;
@@ -46,12 +46,19 @@
             border-bottom: 2px solid var(--bg-color);
             padding-bottom: 10px;
         }
-        ol {
-            padding-left: 20px;
-            line-height: 1.6;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
         }
-        li {
-            margin-bottom: 6px;
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        th {
+            background-color: #eef2ff;
+            color: var(--primary-color);
         }
         ul.task-list {
             padding-left: 0;
@@ -79,28 +86,37 @@
 
     <div class="container">
         <header>
-            <h1>Jadwal & Mata Pelajaran SMA Kelas IPS</h1>
-            <p>Daftar lengkap kurikulum dan pemantauan target belajar harian.</p>
+            <h1>Jadwal & Target Belajar SMA</h1>
+            <p>Kelola waktu dan pantau progres target belajarmu secara interaktif.</p>
         </header>
 
         <div class="card">
-            <h2>📚 Daftar Mata Pelajaran IPS</h2>
-            <ol>
-                <li>Bahasa Indonesia</li>
-                <li>Bahasa Inggris (Wajib)</li>
-                <li>Matematika (Wajib)</li>
-                <li>Sejarah</li>
-                <li>Pendidikan Agama Islam (PAI)</li>
-                <li>PKWU</li>
-                <li>Sosiologi</li>
-                <li>Geografi</li>
-                <li>Ekonomi</li>
-                <li>TIK</li>
-                <li>Bahasa Inggris (Lanjut)</li>
-                <li>Bahasa Arab</li>
-                <li>PJOK / Taekwondo</li>
-                <li>Bimbingan Konseling (BK)</li>
-            </ol>
+            <h2>📅 Jadwal Mata Pelajaran IPS</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Mata Pelajaran</th>
+                        <th>Kategori / Fokus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td><strong>Bahasa Indonesia</strong></td><td>Literasi & Kebahasaan</td></tr>
+                    <tr><td>2</td><td><strong>Bahasa Inggris (Wajib)</strong></td><td>Grammar & Reading</td></tr>
+                    <tr><td>3</td><td><strong>Matematika (Wajib)</strong></td><td>Logika & Hitungan Dasar</td></tr>
+                    <tr><td>4</td><td><strong>Sejarah</strong></td><td>Kronologi & Peristiwa</td></tr>
+                    <tr><td>5</td><td><strong>Pendidikan Agama Islam (PAI)</strong></td><td>Norma & Keagamaan</td></tr>
+                    <tr><td>6</td><td><strong>PKWU</strong></td><td>Kewirausahaan & Kreativitas</td></tr>
+                    <tr><td>7</td><td><strong>Sosiologi</strong></td><td>Interaksi & Gejala Sosial</td></tr>
+                    <tr><td>8</td><td><strong>Geografi</strong></td><td>Spasial & Fenomena Alam</td></tr>
+                    <tr><td>9</td><td><strong>Ekonomi</strong></td><td>Pasar & Keuangan</td></tr>
+                    <tr><td>10</td><td><strong>TIK</strong></td><td>Teknologi & Komputer</td></tr>
+                    <tr><td>11</td><td><strong>Bahasa Inggris (Lanjut)</strong></td><td>Advanced Communication</td></tr>
+                    <tr><td>12</td><td><strong>Bahasa Arab</strong></td><td>Kaidah & Kosakata</td></tr>
+                    <tr><td>13</td><td><strong>PJOK / Taekwondo</strong></td><td>Kebugaran & Olahraga</td></tr>
+                    <tr><td>14</td><td><strong>Bimbingan Konseling (BK)</strong></td><td>Pengembangan Diri</td></tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="card">
@@ -108,19 +124,19 @@
             <ul class="task-list">
                 <li>
                     <input type="checkbox" id="task1" onchange="toggleTask('task1')">
-                    <label for="task1" id="label-task1">Membuat ringkasan materi Sosiologi dan Geografi.</label>
+                    <label for="task1" id="label-task1">Mempelajari materi Sosiologi dan Geografi.</label>
                 </li>
                 <li>
                     <input type="checkbox" id="task2" onchange="toggleTask('task2')">
-                    <label for="task2" id="label-task2">Mengerjakan latihan soal hitungan Ekonomi.</label>
+                    <label for="task2" id="label-task2">Mengerjakan latihan soal Ekonomi dan Matematika.</label>
                 </li>
                 <li>
                     <input type="checkbox" id="task3" onchange="toggleTask('task3')">
-                    <label for="task3" id="label-task3">Latihan percakapan untuk Bahasa Inggris (Lanjut).</label>
+                    <label for="task3" id="label-task3">Latihan bahasa Inggris lanjut dan Bahasa Arab.</label>
                 </li>
                 <li>
                     <input type="checkbox" id="task4" onchange="toggleTask('task4')">
-                    <label for="task4" id="label-task4">Menghafal kosakata Bahasa Arab dan materi PAI.</label>
+                    <label for="task4" id="label-task4">Evaluasi target mingguan bersama sesi BK.</label>
                 </li>
             </ul>
         </div>
