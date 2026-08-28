@@ -2,10 +2,130 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Belajar Git Pertama</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Belajar SMA</title>
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        header p {
+            color: #6b7280;
+        }
+        .card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 1.25rem;
+            margin-top: 0;
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        th {
+            background-color: #eef2ff;
+            color: var(--primary-color);
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Halo, ini website pertamaku yang pakai Git dan GitHub!</h1>
-    <p>Asyik, sudah berhasil terhubung.</p>
+
+    <div class="container">
+        <header>
+            <h1>Jadwal & Target Belajar SMA</h1>
+            <p>Kelola waktu dan materi belajar agar lebih terstruktur setiap hari.</p>
+        </header>
+
+        <div class="card">
+            <h2>📅 Jadwal Pelajaran Mingguan</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hari</th>
+                        <th>Mata Pelajaran Utama</th>
+                        <th>Fokus Belajar / Kegiatan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Senin</strong></td>
+                        <td>Matematika & Fisika</td>
+                        <td>Latihan soal rumus turunan & hukum Newton</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Selasa</strong></td>
+                        <td>Bahasa Indonesia & Inggris</td>
+                        <td>Reading comprehension & Analisis teks eksposisi</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rabu</strong></td>
+                        <td>Kimia & Biologi</td>
+                        <td>Struktur atom & Sistem metabolisme sel</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kamis</strong></td>
+                        <td>Sejarah & Ekonomi</td>
+                        <td>Mekanisme pasar & Rangkuman sejarah kemerdekaan</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Jumat</strong></td>
+                        <td>PJOK / Taekwondo & Agama</td>
+                        <td>Penguatan fisik, taktik olahraga & hafalan materi</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>🎯 Target Belajar Minggu Ini</h2>
+            <ul>
+                <li>Menyelesaikan 20 soal latihan bab kalkulus dasar.</li>
+                <li>Menghafal 30 kosakata baru bahasa Inggris beserta artinya.</li>
+                <li>Membuat ringkasan materi biologi dalam bentuk peta konsep (*mind map*).</li>
+                <li>Evaluasi hasil kuis latihan mandiri di akhir pekan.</li>
+            </ul>
+        </div>
+    </div>
+
 </body>
 </html>
