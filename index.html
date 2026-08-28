@@ -79,6 +79,29 @@
             border-bottom: 2px solid var(--border-color);
             padding-bottom: 10px;
         }
+        /* Tab Navigasi Hari */
+        .day-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        .day-btn {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .day-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
         /* Progress Bar */
         .progress-container {
             background-color: var(--border-color);
@@ -200,7 +223,7 @@
         <header>
             <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">🌙 Mode Gelap</button>
             <h1>Jadwal & Target Belajar Kelas IPS</h1>
-            <p>Pantau jadwal, selesaikan target harian, dan catat PR pentingmu di sini.</p>
+            <p>Pantau jadwal harian, selesaikan target, dan catat PR pentingmu.</p>
         </header>
 
         <!-- Indikator Progres -->
@@ -212,34 +235,19 @@
             <div class="progress-text" id="progressText">0 dari 0 target selesai (0%)</div>
         </div>
 
-        <!-- Daftar Mata Pelajaran IPS -->
+        <!-- Jadwal Harian Interaktif (Tab) -->
         <div class="card">
-            <h2>📚 Daftar Mata Pelajaran IPS</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Mata Pelajaran</th>
-                        <th>Fokus / Kategori</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>1</td><td><strong>Bahasa Indonesia</strong></td><td>Literasi & Kebahasaan</td></tr>
-                    <tr><td>2</td><td><strong>Bahasa Inggris (Wajib)</strong></td><td>Grammar & Reading</td></tr>
-                    <tr><td>3</td><td><strong>Matematika (Wajib)</strong></td><td>Logika & Hitungan Dasar</td></tr>
-                    <tr><td>4</td><td><strong>Sejarah</strong></td><td>Kronologi & Peristiwa</td></tr>
-                    <tr><td>5</td><td><strong>Pendidikan Agama Islam (PAI)</strong></td><td>Norma & Keagamaan</td></tr>
-                    <tr><td>6</td><td><strong>PKWU</strong></td><td>Kewirausahaan & Kreativitas</td></tr>
-                    <tr><td>7</td><td><strong>Sosiologi</strong></td><td>Interaksi & Gejala Sosial</td></tr>
-                    <tr><td>8</td><td><strong>Geografi</strong></td><td>Spasial & Fenomena Alam</td></tr>
-                    <tr><td>9</td><td><strong>Ekonomi</strong></td><td>Pasar & Keuangan</td></tr>
-                    <tr><td>10</td><td><strong>TIK</strong></td><td>Teknologi & Komputer</td></tr>
-                    <tr><td>11</td><td><strong>Bahasa Inggris (Lanjut)</strong></td><td>Advanced Communication</td></tr>
-                    <tr><td>12</td><td><strong>Bahasa Arab</strong></td><td>Kaidah & Kosakata</td></tr>
-                    <tr><td>13</td><td><strong>PJOK / Taekwondo</strong></td><td>Kebugaran & Olahraga</td></tr>
-                    <tr><td>14</td><td><strong>Bimbingan Konseling (BK)</strong></td><td>Pengembangan Diri</td></tr>
-                </tbody>
-            </table>
+            <h2>📅 Jadwal Pelajaran Berdasarkan Hari</h2>
+            <div class="day-tabs">
+                <button class="day-btn active" onclick="switchDay('senin')">Senin</button>
+                <button class="day-btn" onclick="switchDay('selasa')">Selasa</button>
+                <button class="day-btn" onclick="switchDay('rabu')">Rabu</button>
+                <button class="day-btn" onclick="switchDay('kamis')">Kamis</button>
+                <button class="day-btn" onclick="switchDay('jumat')">Jumat</button>
+            </div>
+            <div id="scheduleContent">
+                <!-- Konten jadwal harian akan tampil di sini -->
+            </div>
         </div>
 
         <!-- Target Belajar Dinamis -->
@@ -262,6 +270,70 @@
     </div>
 
     <script>
+        // Data Jadwal Harian Kelas IPS
+        const weeklySchedule = {
+            senin: [
+                { no: 1, mapel: "Pendidikan Agama Islam (PAI)", fokus: "Norma & Keagamaan" },
+                { no: 2, mapel: "Bahasa Indonesia", fokus: "Literasi & Kebahasaan" },
+                { no: 3, mapel: "Sejarah", fokus: "Kronologi & Peristiwa" }
+            ],
+            selasa: [
+                { no: 1, mapel: "Matematika (Wajib)", fokus: "Logika & Hitungan Dasar" },
+                { no: 2, mapel: "Ekonomi", fokus: "Pasar & Keuangan" },
+                { no: 3, mapel: "Sosiologi", fokus: "Interaksi & Gejala Sosial" }
+            ],
+            rabu: [
+                { no: 1, mapel: "Geografi", fokus: "Spasial & Fenomena Alam" },
+                { no: 2, mapel: "Bahasa Inggris (Wajib)", fokus: "Grammar & Reading" },
+                { no: 3, mapel: "TIK", fokus: "Teknologi & Komputer" }
+            ],
+            kamis: [
+                { no: 1, mapel: "Bahasa Inggris (Lanjut)", fokus: "Advanced Communication" },
+                { no: 2, mapel: "PKWU", fokus: "Kewirausahaan & Kreativitas" },
+                { no: 3, mapel: "Bahasa Arab", fokus: "Kaidah & Kosakata" }
+            ],
+            jumat: [
+                { no: 1, mapel: "PJOK / Taekwondo", fokus: "Kebugaran & Olahraga" },
+                { no: 2, mapel: "Bimbingan Konseling (BK)", fokus: "Pengembangan Diri" }
+            ]
+        };
+
+        function switchDay(day) {
+            // Update tombol aktif
+            const buttons = document.querySelectorAll('.day-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Render tabel sesuai hari
+            const schedule = weeklySchedule[day];
+            const container = document.getElementById('scheduleContent');
+            
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Mata Pelajaran</th>
+                            <th>Fokus / Kategori</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            schedule.forEach(item => {
+                html += `
+                    <tr>
+                        <td>${item.no}</td>
+                        <td><strong>${item.mapel}</strong></td>
+                        <td>${item.fokus}</td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+
         // Data Awal Target Belajar
         let tasks = [
             { id: 1, text: "Membuat ringkasan materi Sosiologi dan Geografi.", completed: false },
@@ -336,19 +408,51 @@
         }
 
         window.onload = function() {
+            // Tampilkan jadwal hari Senin secara *default* saat pertama buka
+            switchDayInitial('senin');
             renderTasks();
+
             const savedNotes = localStorage.getItem('user_notes');
             if (savedNotes) {
                 document.getElementById('notesInput').value = savedNotes;
             }
 
-            // Muat tema tersimpan
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
                 document.getElementById('themeToggleBtn').innerText = '☀️ Mode Terang';
             }
         };
+
+        function switchDayInitial(day) {
+            const schedule = weeklySchedule[day];
+            const container = document.getElementById('scheduleContent');
+            
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Mata Pelajaran</th>
+                            <th>Fokus / Kategori</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            schedule.forEach(item => {
+                html += `
+                    <tr>
+                        <td>${item.no}</td>
+                        <td><strong>${item.mapel}</strong></td>
+                        <td>${item.fokus}</td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
     </script>
 
 </body>
