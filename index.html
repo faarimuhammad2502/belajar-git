@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -62,10 +61,24 @@
             color: var(--primary-color);
         }
         ul {
-            padding-left: 20px;
+            padding-left: 0;
+            list-style: none;
         }
         li {
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: #9ca3af;
         }
     </style>
 </head>
@@ -74,7 +87,7 @@
     <div class="container">
         <header>
             <h1>Jadwal & Target Belajar SMA</h1>
-            <p>Kelola waktu dan materi belajar agar lebih terstruktur setiap hari.</p>
+            <p>Kelola waktu dan pantau progres target belajarmu secara interaktif.</p>
         </header>
 
         <div class="card">
@@ -118,27 +131,39 @@
         </div>
 
         <div class="card">
-            <h2>🎯 Target Belajar Minggu Ini</h2>
+            <h2>🎯 Target Belajar Minggu Ini (Klik untuk Centang)</h2>
             <ul>
-                <li>Menyelesaikan 20 soal latihan bab kalkulus dasar.</li>
-                <li>Menghafal 30 kosakata baru bahasa Inggris beserta artinya.</li>
-                <li>Membuat ringkasan materi biologi dalam bentuk peta konsep (*mind map*).</li>
-                <li>Evaluasi hasil kuis latihan mandiri di akhir pekan.</li>
+                <li>
+                    <input type="checkbox" id="task1" onchange="toggleTask('task1')">
+                    <label for="task1" id="label-task1">Menyelesaikan 20 soal latihan bab kalkulus dasar.</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="task2" onchange="toggleTask('task2')">
+                    <label for="task2" id="label-task2">Menghafal 30 kosakata baru bahasa Inggris beserta artinya.</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="task3" onchange="toggleTask('task3')">
+                    <label for="task3" id="label-task3">Membuat ringkasan materi biologi dalam bentuk peta konsep (*mind map*).</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="task4" onchange="toggleTask('task4')">
+                    <label for="task4" id="label-task4">Evaluasi hasil kuis latihan mandiri di akhir pekan.</label>
+                </li>
             </ul>
         </div>
     </div>
 
+    <script>
+        function toggleTask(taskId) {
+            const checkbox = document.getElementById(taskId);
+            const label = document.getElementById('label-' + taskId);
+            if (checkbox.checked) {
+                label.classList.add('completed');
+            } else {
+                label.classList.remove('completed');
+            }
+        }
+    </script>
+
 </body>
-=======
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Belajar Git Pertama</title>
-</head>
-<body>
-    <h1>Halo, ini website pertamaku yang pakai Git dan GitHub!</h1>
-    <p>Asyik, sudah berhasil terhubung.</p>
-</body>
->>>>>>> c89c6347f2e171da456d81f09c69a412daa82843
 </html>
