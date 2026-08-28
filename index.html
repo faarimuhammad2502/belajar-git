@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jadwal & Target Belajar IPS</title>
+    <!-- Favicon Emoji Buku -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
     <style>
         :root {
             --primary-color: #4f46e5;
@@ -48,6 +50,17 @@
         }
         header p {
             color: #9ca3af;
+            margin-bottom: 8px;
+        }
+        .live-clock {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            background-color: var(--table-header-bg);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-top: 5px;
         }
         .theme-toggle {
             position: absolute;
@@ -224,6 +237,7 @@
             <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">🌙 Mode Gelap</button>
             <h1>Jadwal & Target Belajar Kelas IPS</h1>
             <p>Pantau jadwal harian, selesaikan target, dan catat PR pentingmu.</p>
+            <div class="live-clock" id="liveClock">Memuat waktu...</div>
         </header>
 
         <!-- Indikator Progres -->
@@ -239,11 +253,11 @@
         <div class="card">
             <h2>📅 Jadwal Pelajaran Berdasarkan Hari</h2>
             <div class="day-tabs">
-                <button class="day-btn active" onclick="switchDay('senin')">Senin</button>
-                <button class="day-btn" onclick="switchDay('selasa')">Selasa</button>
-                <button class="day-btn" onclick="switchDay('rabu')">Rabu</button>
-                <button class="day-btn" onclick="switchDay('kamis')">Kamis</button>
-                <button class="day-btn" onclick="switchDay('jumat')">Jumat</button>
+                <button class="day-btn active" onclick="switchDay('senin', event)">Senin</button>
+                <button class="day-btn" onclick="switchDay('selasa', event)">Selasa</button>
+                <button class="day-btn" onclick="switchDay('rabu', event)">Rabu</button>
+                <button class="day-btn" onclick="switchDay('kamis', event)">Kamis</button>
+                <button class="day-btn" onclick="switchDay('jumat', event)">Jumat</button>
             </div>
             <div id="scheduleContent">
                 <!-- Konten jadwal harian akan tampil di sini -->
@@ -298,13 +312,11 @@
             ]
         };
 
-        function switchDay(day) {
-            // Update tombol aktif
+        function switchDay(day, event) {
             const buttons = document.querySelectorAll('.day-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if(event) event.target.classList.add('active');
 
-            // Render tabel sesuai hari
             const schedule = weeklySchedule[day];
             const container = document.getElementById('scheduleContent');
             
@@ -333,6 +345,16 @@
             html += `</tbody></table>`;
             container.innerHTML = html;
         }
+
+        // Jam Digital Real-Time
+        function updateClock() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('id-ID', options);
+            const timeStr = now.toLocaleTimeString('id-ID');
+            document.getElementById('liveClock').innerText = `📅 ${dateStr} | ⏰ ${timeStr}`;
+        }
+        setInterval(updateClock, 1000);
 
         // Data Awal Target Belajar
         let tasks = [
@@ -392,7 +414,6 @@
             localStorage.setItem('user_notes', notes);
         }
 
-        // Dark Mode Logic
         function toggleTheme() {
             const html = document.documentElement;
             const btn = document.getElementById('themeToggleBtn');
@@ -408,9 +429,9 @@
         }
 
         window.onload = function() {
-            // Tampilkan jadwal hari Senin secara *default* saat pertama buka
-            switchDayInitial('senin');
+            switchDay('senin', null);
             renderTasks();
+            updateClock();
 
             const savedNotes = localStorage.getItem('user_notes');
             if (savedNotes) {
@@ -423,36 +444,6 @@
                 document.getElementById('themeToggleBtn').innerText = '☀️ Mode Terang';
             }
         };
-
-        function switchDayInitial(day) {
-            const schedule = weeklySchedule[day];
-            const container = document.getElementById('scheduleContent');
-            
-            let html = `
-                <table>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Mata Pelajaran</th>
-                            <th>Fokus / Kategori</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-
-            schedule.forEach(item => {
-                html += `
-                    <tr>
-                        <td>${item.no}</td>
-                        <td><strong>${item.mapel}</strong></td>
-                        <td>${item.fokus}</td>
-                    </tr>
-                `;
-            });
-
-            html += `</tbody></table>`;
-            container.innerHTML = html;
-        }
     </script>
 
 </body>
