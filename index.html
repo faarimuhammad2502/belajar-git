@@ -12,13 +12,26 @@
             --card-bg: #ffffff;
             --text-color: #1f2937;
             --border-color: #e5e7eb;
+            --table-header-bg: #eef2ff;
         }
+
+        [data-theme="dark"] {
+            --primary-color: #818cf8;
+            --primary-hover: #6366f1;
+            --bg-color: #111827;
+            --card-bg: #1f2937;
+            --text-color: #f9fafb;
+            --border-color: #374151;
+            --table-header-bg: #312e81;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
         }
         .container {
             max-width: 900px;
@@ -27,13 +40,30 @@
         header {
             text-align: center;
             margin-bottom: 25px;
+            position: relative;
         }
         header h1 {
             color: var(--primary-color);
             margin-bottom: 5px;
         }
         header p {
-            color: #6b7280;
+            color: #9ca3af;
+        }
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        .theme-toggle:hover {
+            background-color: var(--primary-hover);
         }
         .card {
             background-color: var(--card-bg);
@@ -41,11 +71,12 @@
             border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
+            transition: background-color 0.3s;
         }
         h2 {
             font-size: 1.25rem;
             margin-top: 0;
-            border-bottom: 2px solid var(--bg-color);
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 10px;
         }
         /* Progress Bar */
@@ -65,7 +96,7 @@
         }
         .progress-text {
             font-size: 0.875rem;
-            color: #6b7280;
+            color: #9ca3af;
             margin-top: 5px;
             text-align: right;
         }
@@ -81,7 +112,7 @@
             border-bottom: 1px solid var(--border-color);
         }
         th {
-            background-color: #eef2ff;
+            background-color: var(--table-header-bg);
             color: var(--primary-color);
         }
         /* Form Tambah Target */
@@ -94,6 +125,8 @@
             flex: 1;
             padding: 10px;
             border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
             border-radius: 8px;
             font-size: 1rem;
         }
@@ -119,7 +152,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: #f9fafb;
+            background-color: var(--bg-color);
             padding: 10px 14px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
@@ -151,6 +184,8 @@
             height: 100px;
             padding: 12px;
             border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
             border-radius: 8px;
             font-family: inherit;
             font-size: 1rem;
@@ -163,6 +198,7 @@
 
     <div class="container">
         <header>
+            <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">🌙 Mode Gelap</button>
             <h1>Jadwal & Target Belajar Kelas IPS</h1>
             <p>Pantau jadwal, selesaikan target harian, dan catat PR pentingmu di sini.</p>
         </header>
@@ -253,11 +289,9 @@
                 listEl.appendChild(li);
             });
 
-            // Update Progress Bar
             const total = tasks.length;
             const percentage = total > 0 ? Math.round((completedCount / total) * 100) : 0;
             document.getElementById('progressBar').style.width = percentage + '%';
-            document.getElementById('progressTextinnerText', `${completedCount} dari ${total} target selesai (${percentage}%)`);
             document.getElementById('progressText').innerText = `${completedCount} dari ${total} target selesai (${percentage}%)`;
         }
 
@@ -281,10 +315,24 @@
             renderTasks();
         }
 
-        // Simpan & Muat Catatan Otomatis (LocalStorage)
         function saveNotes() {
             const notes = document.getElementById('notesInput').value;
             localStorage.setItem('user_notes', notes);
+        }
+
+        // Dark Mode Logic
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.getElementById('themeToggleBtn');
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                btn.innerText = '🌙 Mode Gelap';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                btn.innerText = '☀️ Mode Terang';
+                localStorage.setItem('theme', 'dark');
+            }
         }
 
         window.onload = function() {
@@ -292,6 +340,13 @@
             const savedNotes = localStorage.getItem('user_notes');
             if (savedNotes) {
                 document.getElementById('notesInput').value = savedNotes;
+            }
+
+            // Muat tema tersimpan
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('themeToggleBtn').innerText = '☀️ Mode Terang';
             }
         };
     </script>
