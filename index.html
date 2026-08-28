@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Belajar SMA</title>
+    <title>Jadwal & Target Belajar IPS</title>
     <style>
         :root {
             --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
             --bg-color: #f3f4f6;
             --card-bg: #ffffff;
             --text-color: #1f2937;
+            --border-color: #e5e7eb;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -24,7 +26,7 @@
         }
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         header h1 {
             color: var(--primary-color);
@@ -46,6 +48,28 @@
             border-bottom: 2px solid var(--bg-color);
             padding-bottom: 10px;
         }
+        /* Progress Bar */
+        .progress-container {
+            background-color: var(--border-color);
+            border-radius: 9999px;
+            height: 12px;
+            width: 100%;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            background-color: var(--primary-color);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .progress-text {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 5px;
+            text-align: right;
+        }
+        /* Tabel */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -54,22 +78,56 @@
         th, td {
             padding: 12px;
             text-align: left;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid var(--border-color);
         }
         th {
             background-color: #eef2ff;
             color: var(--primary-color);
         }
+        /* Form Tambah Target */
+        .task-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .task-form input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .task-form button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .task-form button:hover {
+            background-color: var(--primary-hover);
+        }
+        /* List Target */
         ul.task-list {
             padding-left: 0;
             list-style: none;
         }
         ul.task-list li {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f9fafb;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .task-item-left {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 1rem;
         }
         input[type="checkbox"] {
             width: 18px;
@@ -80,24 +138,53 @@
             text-decoration: line-through;
             color: #9ca3af;
         }
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        /* Catatan Harian */
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <header>
-            <h1>Jadwal & Target Belajar SMA</h1>
-            <p>Kelola waktu dan pantau progres target belajarmu secara interaktif.</p>
+            <h1>Jadwal & Target Belajar Kelas IPS</h1>
+            <p>Pantau jadwal, selesaikan target harian, dan catat PR pentingmu di sini.</p>
         </header>
 
+        <!-- Indikator Progres -->
         <div class="card">
-            <h2>📅 Jadwal Mata Pelajaran IPS</h2>
+            <h2>📊 Progres Belajar Minggu Ini</h2>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">0 dari 0 target selesai (0%)</div>
+        </div>
+
+        <!-- Daftar Mata Pelajaran IPS -->
+        <div class="card">
+            <h2>📚 Daftar Mata Pelajaran IPS</h2>
             <table>
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Mata Pelajaran</th>
-                        <th>Kategori / Fokus</th>
+                        <th>Fokus / Kategori</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,39 +206,94 @@
             </table>
         </div>
 
+        <!-- Target Belajar Dinamis -->
         <div class="card">
-            <h2>🎯 Target Belajar Minggu Ini (Klik untuk Centang)</h2>
-            <ul class="task-list">
-                <li>
-                    <input type="checkbox" id="task1" onchange="toggleTask('task1')">
-                    <label for="task1" id="label-task1">Mempelajari materi Sosiologi dan Geografi.</label>
-                </li>
-                <li>
-                    <input type="checkbox" id="task2" onchange="toggleTask('task2')">
-                    <label for="task2" id="label-task2">Mengerjakan latihan soal Ekonomi dan Matematika.</label>
-                </li>
-                <li>
-                    <input type="checkbox" id="task3" onchange="toggleTask('task3')">
-                    <label for="task3" id="label-task3">Latihan bahasa Inggris lanjut dan Bahasa Arab.</label>
-                </li>
-                <li>
-                    <input type="checkbox" id="task4" onchange="toggleTask('task4')">
-                    <label for="task4" id="label-task4">Evaluasi target mingguan bersama sesi BK.</label>
-                </li>
+            <h2>🎯 Target Belajar Harian</h2>
+            <div class="task-form">
+                <input type="text" id="taskInput" placeholder="Tambah target baru (cth: Rangkum Bab Sosiologi)...">
+                <button onclick="addTask()">Tambah</button>
+            </div>
+            <ul class="task-list" id="taskList">
+                <!-- Target akan muncul otomatis di sini -->
             </ul>
+        </div>
+
+        <!-- Catatan Penting / PR -->
+        <div class="card">
+            <h2>📝 Catatan Penting & PR</h2>
+            <textarea id="notesInput" placeholder="Tulis PR, tugas kelompok, atau catatan penting di sini... (otomatis tersimpan)" oninput="saveNotes()"></textarea>
         </div>
     </div>
 
     <script>
-        function toggleTask(taskId) {
-            const checkbox = document.getElementById(taskId);
-            const label = document.getElementById('label-' + taskId);
-            if (checkbox.checked) {
-                label.classList.add('completed');
-            } else {
-                label.classList.remove('completed');
-            }
+        // Data Awal Target Belajar
+        let tasks = [
+            { id: 1, text: "Membuat ringkasan materi Sosiologi dan Geografi.", completed: false },
+            { id: 2, text: "Mengerjakan latihan soal Ekonomi dan Matematika.", completed: false },
+            { id: 3, text: "Latihan bahasa Inggris lanjut dan Bahasa Arab.", completed: false }
+        ];
+
+        function renderTasks() {
+            const listEl = document.getElementById('taskList');
+            listEl.innerHTML = '';
+
+            let completedCount = 0;
+
+            tasks.forEach((task, index) => {
+                if (task.completed) completedCount++;
+
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div class="task-item-left">
+                        <input type="checkbox" ${task.completed ? 'checked' : ''} onclick="toggleTask(${index})">
+                        <span class="${task.completed ? 'completed' : ''}">${task.text}</span>
+                    </div>
+                    <button class="delete-btn" onclick="deleteTask(${index})">Hapus</button>
+                `;
+                listEl.appendChild(li);
+            });
+
+            // Update Progress Bar
+            const total = tasks.length;
+            const percentage = total > 0 ? Math.round((completedCount / total) * 100) : 0;
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressTextinnerText', `${completedCount} dari ${total} target selesai (${percentage}%)`);
+            document.getElementById('progressText').innerText = `${completedCount} dari ${total} target selesai (${percentage}%)`;
         }
+
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const text = input.value.trim();
+            if (text === '') return;
+
+            tasks.push({ id: Date.now(), text: text, completed: false });
+            input.value = '';
+            renderTasks();
+        }
+
+        function toggleTask(index) {
+            tasks[index].completed = !tasks[index].completed;
+            renderTasks();
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            renderTasks();
+        }
+
+        // Simpan & Muat Catatan Otomatis (LocalStorage)
+        function saveNotes() {
+            const notes = document.getElementById('notesInput').value;
+            localStorage.setItem('user_notes', notes);
+        }
+
+        window.onload = function() {
+            renderTasks();
+            const savedNotes = localStorage.getItem('user_notes');
+            if (savedNotes) {
+                document.getElementById('notesInput').value = savedNotes;
+            }
+        };
     </script>
 
 </body>
